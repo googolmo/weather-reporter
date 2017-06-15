@@ -1,4 +1,4 @@
-package im.amomo.weatherreporter
+package im.amomo.weatherreporter.things.provider
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -14,18 +14,19 @@ import java.util.*
  * Project - WeatherReporter
  * Created by Moyw on 01/06/2017.
  */
-class DisplayProvider constructor(context: Context, lifecycle: Lifecycle) : LifecycleObserver {
+class DisplayProvider constructor(val context: Context, val lifecycle: Lifecycle) : LifecycleObserver {
 
-    var _ledstrip: Apa102 ?= null
-    var _display: AlphanumericDisplay ?= null
-
-    var _context: Context?= context
-    var _lifecycle: Lifecycle? = lifecycle
+    var _ledstrip: Apa102?= null
+    var _display: AlphanumericDisplay?= null
 
     val _ledstripBrightness: Int = 1
 
     init {
 
+    }
+
+    fun enable() {
+        lifecycle.addObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -67,6 +68,7 @@ class DisplayProvider constructor(context: Context, lifecycle: Lifecycle) : Life
         } finally {
             _ledstrip = null
         }
+        lifecycle.removeObserver(this)
     }
 
 }

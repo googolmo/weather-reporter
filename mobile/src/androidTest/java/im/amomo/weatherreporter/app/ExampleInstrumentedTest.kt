@@ -1,4 +1,4 @@
-package im.amomo.weatherreporter
+package im.amomo.weatherreporter.app
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

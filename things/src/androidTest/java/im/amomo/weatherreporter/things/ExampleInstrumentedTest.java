@@ -1,4 +1,4 @@
-package im.amomo.weatherreporter;
+package im.amomo.weatherreporter.things;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package im.amomo.weatherreporter.util
+package im.amomo.weatherreporter.things.util
 
 import android.graphics.Color
 

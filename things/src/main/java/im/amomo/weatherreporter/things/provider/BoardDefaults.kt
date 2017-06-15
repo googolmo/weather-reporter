@@ -1,4 +1,4 @@
-package im.amomo.weatherreporter
+package im.amomo.weatherreporter.things.provider
 
 import android.os.Build
 

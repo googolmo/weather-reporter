@@ -1,8 +1,8 @@
-package im.amomo.weatherreporter
+package im.amomo.weatherreporter.things
 
-import android.arch.lifecycle.LifecycleActivity
-import android.os.Bundle
-import im.amomo.weatherreporter.SensorProvider.Callback
+import im.amomo.weatherreporter.things.provider.ButtonGpioProvider
+import im.amomo.weatherreporter.things.provider.DisplayProvider
+import im.amomo.weatherreporter.things.provider.SensorProvider
 
 /**
  * Skeleton of an Android Things activity.
@@ -25,16 +25,21 @@ import im.amomo.weatherreporter.SensorProvider.Callback
 
  * @see [https://github.com/androidthings/contrib-drivers.readme](https://github.com/androidthings/contrib-drivers.readme)
  */
-class MainActivity : LifecycleActivity() {
+class MainActivity: android.arch.lifecycle.LifecycleActivity() {
+
+    val _tag: String = "MainActivity"
+
 
     var _sensorProvider: SensorProvider ?= null
     var _displayProvider: DisplayProvider ?= null
+    var _buttonGpioProvider: ButtonGpioProvider ? = null
 
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+
+    protected override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         _displayProvider = DisplayProvider(this, lifecycle)
-        _sensorProvider = SensorProvider(this, lifecycle, object : Callback {
+        _sensorProvider = SensorProvider(this, lifecycle, object : SensorProvider.Callback {
             override fun onPressure(pressures: IntArray) {
                 _displayProvider?._ledstrip?.write(pressures)
             }
@@ -43,8 +48,11 @@ class MainActivity : LifecycleActivity() {
                 _displayProvider?._display?.display(temperature.toDouble())
             }
         })
-        lifecycle.addObserver(_displayProvider)
-        lifecycle.addObserver(_sensorProvider)
-        println("MainActivity onCreate()")
+        _buttonGpioProvider = ButtonGpioProvider(this, lifecycle)
+        _sensorProvider?.enable()
+        _displayProvider?.enable()
+        _buttonGpioProvider?.enable()
+
+
     }
 }
